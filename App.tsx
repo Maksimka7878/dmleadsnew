@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
+
+// Critical components (Above the fold)
 import Background from './components/Background';
 import LeadForm from './components/LeadForm';
-import AnalyticsSlider from './components/AnalyticsSlider';
-import ComparisonSection from './components/ComparisonSection';
-import ROICase from './components/ROICase';
-import SupportSection from './components/SupportSection';
-import FAQ from './components/FAQ';
 import TiltCard from './components/TiltCard';
 import Typewriter from './components/Typewriter';
-import Integrations from './components/Integrations';
-import Pricing from './components/Pricing';
-import Testimonials from './components/Testimonials';
-import RunningLine from './components/RunningLine';
 import MagneticButton from './components/MagneticButton';
+import RunningLine from './components/RunningLine';
 import LeadScanner from './components/LeadScanner';
-import BlogSection from './components/BlogSection';
+
+// Lazy loaded components (Below the fold)
+const AnalyticsSlider = React.lazy(() => import('./components/AnalyticsSlider'));
+const ComparisonSection = React.lazy(() => import('./components/ComparisonSection'));
+const ROICase = React.lazy(() => import('./components/ROICase'));
+const SupportSection = React.lazy(() => import('./components/SupportSection'));
+const FAQ = React.lazy(() => import('./components/FAQ'));
+const Integrations = React.lazy(() => import('./components/Integrations'));
+const Pricing = React.lazy(() => import('./components/Pricing'));
+const Testimonials = React.lazy(() => import('./components/Testimonials'));
+const BlogSection = React.lazy(() => import('./components/BlogSection'));
 import {
     ArrowRightIcon,
     ArrowDownIcon,
@@ -256,32 +260,38 @@ const App: React.FC = () => {
                 </section>
 
                 {/* ANALYTICS - Light Mode */}
-                <section id="sources" className="py-24 bg-slate-50 border-y border-slate-200 relative">
-                    <div className="px-6 md:px-12 max-w-[1800px] mx-auto">
-                        <div className="mb-12 flex items-end justify-between">
-                            <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">АНАЛИТИКА<br />РЫНКА</h2>
-                            <div className="hidden md:block text-right">
-                                <div className="text-[10px] font-mono text-teal-600">ДАННЫЕ LIVE</div>
+                <Suspense fallback={<div className="py-24 text-center text-slate-400">Загрузка аналитики...</div>}>
+                    <section id="sources" className="py-24 bg-slate-50 border-y border-slate-200 relative">
+                        <div className="px-6 md:px-12 max-w-[1800px] mx-auto">
+                            <div className="mb-12 flex items-end justify-between">
+                                <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">АНАЛИТИКА<br />РЫНКА</h2>
+                                <div className="hidden md:block text-right">
+                                    <div className="text-[10px] font-mono text-teal-600">ДАННЫЕ LIVE</div>
+                                </div>
                             </div>
+                            <AnalyticsSlider />
                         </div>
-                        <AnalyticsSlider />
-                    </div>
-                </section>
+                    </section>
+                </Suspense>
 
                 {/* COMPARISON - Light Mode */}
-                <section className="py-32 px-6 md:px-12 bg-white">
-                    <div className="max-w-7xl mx-auto">
-                        <ComparisonSection />
-                    </div>
-                </section>
+                <Suspense fallback={<div className="py-32"></div>}>
+                    <section className="py-32 px-6 md:px-12 bg-white">
+                        <div className="max-w-7xl mx-auto">
+                            <ComparisonSection />
+                        </div>
+                    </section>
+                </Suspense>
 
                 {/* INTEGRATIONS & ECOSYSTEM - Light Mode */}
-                <section className="py-24 bg-slate-50 relative overflow-hidden">
-                    <div className="relative z-10 px-6 md:px-12 max-w-7xl mx-auto space-y-24">
-                        <Integrations />
-                        <div id="income"></div>
-                    </div>
-                </section>
+                <Suspense fallback={<div className="py-24"></div>}>
+                    <section className="py-24 bg-slate-50 relative overflow-hidden">
+                        <div className="relative z-10 px-6 md:px-12 max-w-7xl mx-auto space-y-24">
+                            <Integrations />
+                            <div id="income"></div>
+                        </div>
+                    </section>
+                </Suspense>
 
                 {/* CALCULATOR - Clean Light Card */}
                 <section className="py-32 px-6 md:px-12 bg-white">
@@ -336,31 +346,39 @@ const App: React.FC = () => {
                 </section>
 
                 {/* PRICING - Light Mode */}
-                <section className="py-24 px-6 md:px-12 bg-slate-50">
-                    <Pricing />
-                </section>
+                <Suspense fallback={<div className="py-24"></div>}>
+                    <section className="py-24 px-6 md:px-12 bg-slate-50">
+                        <Pricing />
+                    </section>
+                </Suspense>
 
                 {/* TESTIMONIALS - Light Mode */}
-                <section className="py-24 px-6 md:px-12 bg-white border-t border-slate-100">
-                    <div className="max-w-7xl mx-auto">
-                        <Testimonials />
-                    </div>
-                </section>
+                <Suspense fallback={<div className="py-24"></div>}>
+                    <section className="py-24 px-6 md:px-12 bg-white border-t border-slate-100">
+                        <div className="max-w-7xl mx-auto">
+                            <Testimonials />
+                        </div>
+                    </section>
+                </Suspense>
 
                 {/* ROI CASE - Light Mode */}
-                <section className="py-32 px-6 md:px-12 bg-slate-50">
-                    <div className="max-w-7xl mx-auto">
-                        <ROICase />
-                    </div>
-                </section>
+                <Suspense fallback={<div className="py-32"></div>}>
+                    <section className="py-32 px-6 md:px-12 bg-slate-50">
+                        <div className="max-w-7xl mx-auto">
+                            <ROICase />
+                        </div>
+                    </section>
+                </Suspense>
 
                 {/* SUPPORT & FAQ - Light Mode */}
-                <section className="py-24 px-6 md:px-12 bg-white">
-                    <div className="max-w-7xl mx-auto space-y-32">
-                        <SupportSection />
-                        <FAQ />
-                    </div>
-                </section>
+                <Suspense fallback={<div className="py-24"></div>}>
+                    <section className="py-24 px-6 md:px-12 bg-white">
+                        <div className="max-w-7xl mx-auto space-y-32">
+                            <SupportSection />
+                            <FAQ />
+                        </div>
+                    </section>
+                </Suspense>
 
                 {/* FINAL CTA FORM - Light Mode */}
                 <section id="form-section" className="py-32 px-6 md:px-12 relative bg-slate-50">
@@ -373,7 +391,9 @@ const App: React.FC = () => {
                 </section>
 
                 {/* SEO BLOG SECTION - Collapsible */}
-                <BlogSection />
+                <Suspense fallback={<div className="py-12"></div>}>
+                    <BlogSection />
+                </Suspense>
 
             </main>
 
